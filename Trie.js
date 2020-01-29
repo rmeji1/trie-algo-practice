@@ -33,6 +33,30 @@ class Trie {
     }
     return currentNode.endOfWord
   }
+
+  delete (word) {
+    this.deleteRecursively(this.root, word, 0)
+    return this.root
+  }
+
+  deleteRecursively (currentNode, word, index) {
+    // base case
+    if (index === word.length) {
+      if (!currentNode.endOfWord) return false
+      currentNode.endOfWord = false
+      return Object.keys(currentNode.children).length === 0
+    }
+
+    const character = word.charAt(index)
+    const node = currentNode.children[character]
+    if (!node) return false
+    const shouldDeleteNode = this.deleteRecursively(node, word, index + 1)
+    if (shouldDeleteNode) {
+      delete currentNode.children[character]
+      return Object.keys(currentNode.children).length === 0
+    }
+    return false
+  }
 }
 
 module.exports = Trie

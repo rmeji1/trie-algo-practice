@@ -1,5 +1,5 @@
 const Trie = require('./Trie')
-const TrieNode = require('./TrieNode')
+// const TrieNode = require('./TrieNode')
 
 let trie
 beforeEach (() => trie = new Trie())
@@ -71,5 +71,31 @@ describe('Searching inside of a trie', () => {
 
   test('does not find the word ro', () => {
     expect(trie.search('ro')).not.toBeTruthy()
+  })
+})
+
+describe('Deleting a word in a trie', () => {
+  beforeEach(() => {
+    trie.insert('rob')
+    trie.insert('red')
+  })
+
+  test('should delete the word red', () => {
+    expect(trie.delete('red')).toEqual({
+      children: {
+        r: {
+          children: {
+            o: {
+              children: {
+                b: { children: {}, endOfWord: true }
+              },
+              endOfWord: false
+            }
+          },
+          endOfWord: false
+        }
+      },
+      endOfWord: false
+    })
   })
 })
